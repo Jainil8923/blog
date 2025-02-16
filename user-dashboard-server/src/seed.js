@@ -1,51 +1,40 @@
 import { faker } from "@faker-js/faker";
-import pg from "pg";
-const { Client } = pg;
+import { db } from "./db/index.js";
+import { usersTable } from "./db/schema.ts";
+import bcrypt from "bcrypt";
 
-const client = new Client({
-  user: "postgres",
-  password: "Jj@89aik12",
-  host: "localhost",
-  port: 5433,
-  database: "users",
-});
+const seedUsers = async () => {
+  const users = [];
 
-const seed = async () => {
-  await client.connect();
+  for (let i = 0; i < 1000; i++) {
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+    const email = faker.internet.email();
+
+    const rawPassword = firstName.charAt(0).toUpperCase() + "@8765";
+
+    const hashedPassword = await bcrypt.hash(rawPassword, 10);
+
+    users.push({
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      password: hashedPassword,
+      user_image: faker.image.avatar(),
+      background_image: faker.image.url(),
+      instagram_url: faker.internet.url(),
+      facebook_url: faker.internet.url(),
+      is_active: true,
+      registered_at: new Date(),
+    });
+  }
+
   try {
-    let users = [];
-    for (let i = 0; i < 1000; i++) {
-      const randomName = faker.person.fullName();
-      const newUser = {
-        name: randomName,
-        jobtitle: faker.person.jobTitle(),
-        avatar: faker.image.avatar(),
-        backgroundimage: faker.image.urlPicsumPhotos({ blur: 4 }),
-        follower: faker.number.float({ min: 10, max: 100, fractionDigits: 1 }),
-        following: faker.number.float({ min: 1, max: 10, fractionDigits: 1 }),
-        totalpost: faker.number.float({ min: 1, max: 10, fractionDigits: 1 }),
-      };
-      users.push(newUser);
-    }
-    for (const user of users) {
-      await client.query(
-        `INSERT INTO users (name, jobtitle, avatar, backgroundimage, follower, following, totalpost) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-        [
-          user.name,
-          user.jobtitle,
-          user.avatar,
-          user.backgroundimage,
-          user.follower,
-          user.following,
-          user.totalpost,
-        ],
-      );
-    }
+    await db.insert(usersTable).values(users);
+    console.log("1000 users seeded successfully!");
   } catch (err) {
-    console.log(err);
-  } finally {
-    await client.end();
+    console.error("Error seeding users:", err.message);
   }
 };
 
-seed();
+seedUsers();
