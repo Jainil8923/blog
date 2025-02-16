@@ -52,6 +52,7 @@ export async function signinUserController(req, res) {
 
 export async function getUserController(req, res) {
   try {
+    console.log("called");
     const users = await getUsersRepository();
     res.status(200).json(users);
   } catch (err) {

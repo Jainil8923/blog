@@ -6,6 +6,7 @@ import {
 
 export async function getCommentsController(req, res) {
   try {
+    console.log("called");
     const { blogId } = req.params;
     const comments = await getCommentsByBlogId(blogId);
     res.status(200).json({ success: true, comments });
