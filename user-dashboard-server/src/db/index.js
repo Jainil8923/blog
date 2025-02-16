@@ -2,7 +2,7 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import pg from "pg";
 import dotenv from "dotenv";
 
-const {Pool} = pg;
+const { Pool } = pg;
 dotenv.config();
 
 if (!process.env.DATABASE_URL) {

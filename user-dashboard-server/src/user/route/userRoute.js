@@ -7,7 +7,7 @@ import {
   deleteUserByIdController,
   getUserController,
 } from "../controller/userController.js";
-import verifyToken from "../../middleware.js"; 
+import verifyToken from "../../middleware.js";
 
 const userRouter = Router();
 

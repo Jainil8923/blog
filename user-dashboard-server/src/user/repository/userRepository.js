@@ -6,7 +6,7 @@ export async function registerUserRepository(
   email,
   password,
   firstname,
-  lastname
+  lastname,
 ) {
   try {
     return await db.insert(usersTable).values({
