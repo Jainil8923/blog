@@ -44,8 +44,8 @@ export async function getSingleBlogRepository(blogId) {
       .where(
         and(
           eq(interactionsTable.post_id, blogId),
-          eq(interactionsTable.liked, true)
-        )
+          eq(interactionsTable.liked, true),
+        ),
       );
 
     const dislikeCount = await db
@@ -54,8 +54,8 @@ export async function getSingleBlogRepository(blogId) {
       .where(
         and(
           eq(interactionsTable.post_id, blogId),
-          eq(interactionsTable.liked, false)
-        )
+          eq(interactionsTable.liked, false),
+        ),
       );
 
     return {
