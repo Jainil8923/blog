@@ -26,3 +26,10 @@ export async function getUserByChunk(offset, limit) {
     await client.end();
   }
 }
+
+export async function updateUserByChunk(userid) {
+  try {
+    await client.connect();
+    const data = await client.query("");
+  } catch (err) {}
+}

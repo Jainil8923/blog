@@ -38,7 +38,7 @@ const seed = async () => {
           user.follower,
           user.following,
           user.totalpost,
-        ]
+        ],
       );
     }
   } catch (err) {

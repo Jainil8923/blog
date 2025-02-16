@@ -90,5 +90,5 @@ export const interactionsRelations = relations(
       fields: [interactionsTable.post_id],
       references: [postsTable.id],
     }),
-  })
+  }),
 );
