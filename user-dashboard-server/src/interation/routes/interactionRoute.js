@@ -3,7 +3,7 @@ import {
   addOrUpdateReactionController,
   getReactionCountsController,
 } from "../controller/interactionController.js";
-import verifyToken from "../../middleware.js";
+import verifyToken from "../../../middleware/authMiddleware.js";
 
 const reactionRouter = Router();
 
