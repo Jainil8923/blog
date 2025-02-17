@@ -1,6 +1,6 @@
 {
-  "id": "a2c0f84d-a8e8-4277-aa3f-154e204318c4",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "41ae2772-ec1b-4451-b5a9-8c40f190d78c",
+  "prevId": "a2c0f84d-a8e8-4277-aa3f-154e204318c4",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -11,8 +11,8 @@
         "id": {
           "name": "id",
           "type": "uuid",
-          "primaryKey": false,
-          "notNull": false,
+          "primaryKey": true,
+          "notNull": true,
           "default": "gen_random_uuid()"
         },
         "user_id": {
@@ -81,8 +81,8 @@
         "id": {
           "name": "id",
           "type": "uuid",
-          "primaryKey": false,
-          "notNull": false,
+          "primaryKey": true,
+          "notNull": true,
           "default": "gen_random_uuid()"
         },
         "user_id": {
@@ -138,8 +138,8 @@
         "id": {
           "name": "id",
           "type": "uuid",
-          "primaryKey": false,
-          "notNull": false,
+          "primaryKey": true,
+          "notNull": true,
           "default": "gen_random_uuid()"
         },
         "title": {
@@ -212,8 +212,8 @@
         "id": {
           "name": "id",
           "type": "uuid",
-          "primaryKey": false,
-          "notNull": false,
+          "primaryKey": true,
+          "notNull": true,
           "default": "gen_random_uuid()"
         },
         "first_name": {
@@ -266,6 +266,12 @@
         },
         "facebook_url": {
           "name": "facebook_url",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "refresh_token": {
+          "name": "refresh_token",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
