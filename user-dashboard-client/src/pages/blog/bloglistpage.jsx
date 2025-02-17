@@ -3,6 +3,7 @@ import MediaCard from "../../components/blog/blogCard";
 import axios from "axios";
 import CircularIndeterminate from "../../components/general/progress";
 import { Grid2 } from "@mui/material";
+import BasicPagination from "../../components/general/pagination";
 
 const Bloglistpage = () => {
   const fetcher = async (url) => {
@@ -41,14 +42,15 @@ const Bloglistpage = () => {
   console.log(data.data);
   return (
     <>
-    <h1 style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>Blog Page</h1>
+      <h1 style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>Blog Page</h1>
       <Grid2 container spacing={4}>
         {data.data.map((blog, index) => (
-          <Grid2 size={{ md: 12 }} key={index}>
+          <Grid2 item xs={12} key={index}>
             <MediaCard blog={blog} /> 
           </Grid2>
         ))}
       </Grid2>
+      <BasicPagination style={{ display: "flex", justifyContent: "center", alignItems: "center" }} />
     </>
   );
 };

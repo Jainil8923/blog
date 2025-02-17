@@ -74,8 +74,14 @@ export async function getUsersRepository() {
     const users = await db
       .select({
         ...usersTable,
-        totalPosts: db.$count(postsTable, eq(postsTable.user_id, usersTable.id)),
-        totalLikes: db.$count(interactionsTable, eq(interactionsTable.user_id, usersTable.id)),
+        totalPosts: db.$count(
+          postsTable,
+          eq(postsTable.user_id, usersTable.id),
+        ),
+        totalLikes: db.$count(
+          interactionsTable,
+          eq(interactionsTable.user_id, usersTable.id),
+        ),
       })
       .from(usersTable);
 

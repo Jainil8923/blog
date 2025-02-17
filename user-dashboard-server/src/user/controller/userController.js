@@ -13,7 +13,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-
 export async function registerUserController(req, res) {
   try {
     const { email, password, firstname, lastname } = req.body;
