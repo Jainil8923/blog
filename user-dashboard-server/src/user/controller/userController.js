@@ -18,7 +18,7 @@ export async function registerUserController(req, res) {
     const hashedPassword = await bcrypt.hash(password, 10);
     await registerUserRepository(email, hashedPassword, firstname, lastname);
     res.status(201).json({ message: "User registered successfully" });
-  } catch (error) {
+  } catch {
     res.status(500).json({ error: "Registration failed" });
   }
 }
@@ -55,7 +55,7 @@ export async function getUserController(req, res) {
     console.log("called");
     const users = await getUsersRepository();
     res.status(200).json(users);
-  } catch (err) {
+  } catch {
     res.status(500).send("Internal server error while fetching user data");
   }
 }

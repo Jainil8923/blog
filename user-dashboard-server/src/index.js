@@ -1,10 +1,10 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import userRouter from "./user/route/userRoute.js";
-import blogRouter from "./blog/route/blogRoute.js";
-import commentRouter from "./comment/route/commentRoute.js";
-import reactionRouter from "./interation/route/interactionRoute.js";
+import userRouter from "./user/routes/userRoute.js";
+import blogRouter from "./blog/routes/blogRoute.js";
+import commentRouter from "./comment/routes/commentRoute.js";
+import reactionRouter from "./interation/routes/interactionRoute.js";
 
 dotenv.config();
 
