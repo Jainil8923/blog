@@ -7,7 +7,6 @@ import {
   interactionsTable,
 } from "./db/schema.ts";
 import bcrypt from "bcrypt";
-import { eq } from "drizzle-orm";
 
 const NUM_USERS = 100;
 const POSTS_PER_USER = 3;

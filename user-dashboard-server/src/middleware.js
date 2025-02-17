@@ -11,11 +11,11 @@ function verifyToken(req, res, next) {
   }
 
   try {
-    const tokenWithoutBearer = token.startsWith("Bearer ")
+    const extrectedtoken = token.startsWith("Bearer ")
       ? token.split(" ")[1]
       : token;
 
-    const decoded = jwt.verify(tokenWithoutBearer, process.env.JWT_SECRET);
+    const decoded = jwt.verify(extrectedtoken, process.env.JWT_SECRET);
 
     req.userId = decoded.userId;
     next();
