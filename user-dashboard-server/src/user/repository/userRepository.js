@@ -1,5 +1,5 @@
 import { db } from "../../db/index.js";
-import { usersTable } from "../../db/schema.ts";
+import { interactionsTable, postsTable, usersTable } from "../../db/schema.ts";
 import { eq } from "drizzle-orm";
 
 export async function registerUserRepository(
@@ -71,9 +71,39 @@ export async function deleteUserByIdRepository(userId) {
 
 export async function getUsersRepository() {
   try {
-    return await db.select().from(usersTable);
+    const users = await db
+      .select({
+        ...usersTable,
+        totalPosts: db.$count(postsTable, eq(postsTable.user_id, usersTable.id)),
+        totalLikes: db.$count(interactionsTable, eq(interactionsTable.user_id, usersTable.id)),
+      })
+      .from(usersTable);
+
+    return users;
   } catch (err) {
     console.error("Error in getUsersRepository:", err.message);
     throw new Error("Failed to retrieve users");
   }
 }
+
+// export async function getUserStatsRepository(userId) {
+//   try {
+//     const totalLikes = await db
+//       .select(fn.sum('likes').as('totalLikes'))
+//       .from('blogs')
+//       .where(eq('user_id', userId));
+
+//     const totalBlogs = await db
+//       .select(fn.count('id').as('totalBlogs'))
+//       .from('blogs')
+//       .where(eq('user_id', userId));
+
+//     return {
+//       totalLikes: totalLikes[0].totalLikes || 0,
+//       totalBlogs: totalBlogs[0].totalBlogs || 0,
+//     };
+//   } catch (err) {
+//     console.error("Error in getUserStatsRepository:", err.message);
+//     throw new Error("Failed to retrieve user stats");
+//   }
+// }

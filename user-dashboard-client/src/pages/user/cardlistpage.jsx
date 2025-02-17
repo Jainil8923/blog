@@ -32,7 +32,12 @@ export default function CardlistPage() {
 
   const fetcher = async (url) => {
     try {
-      const response = await axios.get(url);
+      const token = localStorage.getItem("token");
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     } catch (error) {
       console.log(error);
@@ -40,7 +45,7 @@ export default function CardlistPage() {
   };
 
   const { data, error, isLoading } = useSWR(
-    "http://localhost:3000/users",
+    "http://localhost:3000/api/users",
     fetcher
   );
   if (error) return <div>{error.message}</div>;
@@ -58,7 +63,7 @@ export default function CardlistPage() {
       </div>
     );
   }
-  console.log(data);
+  console.log("data:",data);
 
   return (
     <>

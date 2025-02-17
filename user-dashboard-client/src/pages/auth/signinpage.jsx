@@ -15,17 +15,40 @@ export default function SigninPage() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const dummyEmail = "test@example.com";
-    const dummyPassword = "password123";
+    // const dummyEmail = "test@example.com";
+    // const dummyPassword = "password123";
 
-    if (email === dummyEmail && password === dummyPassword) {
+    const token = localStorage.getItem("token");
+    const yourNewData = {
+      email,
+      password,
+    };
+    const response = await fetch("http://localhost:3000/api/users/signin", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(yourNewData),
+    });
+    if (response.ok) {
+      const token = await response.json();
+      localStorage.setItem("token", token.token);
+
       navigate("/");
-    } else {
-      alert("Invalid email or password");
     }
+    {
+      setError("Invalid email or password");
+    }
+    // if (email === dummyEmail && password === dummyPassword) {
+    //   navigate("/");
+    // } else {
+    //   alert("Invalid email or password");
+    // }
   };
 
   return (
@@ -78,6 +101,7 @@ export default function SigninPage() {
           >
             Sign In
           </Button>
+          {error && <Typography color="error">{error}</Typography>}
           <Link href="#" variant="body2">
             Forgot password?
           </Link>

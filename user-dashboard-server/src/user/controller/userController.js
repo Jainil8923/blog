@@ -5,12 +5,14 @@ import {
   getUserByIdRepository,
   registerUserRepository,
   updateUserByIdRepository,
+  // getUserStatsRepository,
 } from "../repository/userRepository.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 
 dotenv.config();
+
 
 export async function registerUserController(req, res) {
   try {
@@ -52,8 +54,11 @@ export async function signinUserController(req, res) {
 
 export async function getUserController(req, res) {
   try {
-    console.log("called");
     const users = await getUsersRepository();
+    // for (const user of users) {
+    //   const stats = await getUserStatsRepository(user.id);
+    //   user.stats = stats;
+    // }
     res.status(200).json(users);
   } catch {
     res.status(500).send("Internal server error while fetching user data");
