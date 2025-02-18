@@ -5,8 +5,7 @@ import {
   interactionsTable,
 } from "../../db/schema.ts";
 import { desc, eq, and, count } from "drizzle-orm";
-import { sql } from 'drizzle-orm' 
-
+import { sql } from "drizzle-orm";
 
 export async function getBlogsRepository(page = 1, per_page = -1) {
   try {
@@ -15,7 +14,7 @@ export async function getBlogsRepository(page = 1, per_page = -1) {
       const blogs = await db
         .select({
           ...postsTable,
-          totalLikes: sql`(select count(*) from interactions where interactions.post_id = posts.id and interactions.liked = true) as totalLikes`
+          totalLikes: sql`(select count(*) from interactions where interactions.post_id = posts.id and interactions.liked = true) as totalLikes`,
         })
         .from(postsTable)
         .where(eq(postsTable.is_deleted, false))
@@ -56,8 +55,8 @@ export async function getSingleBlogRepository(blogId) {
       .where(
         and(
           eq(interactionsTable.post_id, blogId),
-          eq(interactionsTable.liked, true)
-        )
+          eq(interactionsTable.liked, true),
+        ),
       );
 
     const dislikeCount = await db
@@ -66,8 +65,8 @@ export async function getSingleBlogRepository(blogId) {
       .where(
         and(
           eq(interactionsTable.post_id, blogId),
-          eq(interactionsTable.liked, false)
-        )
+          eq(interactionsTable.liked, false),
+        ),
       );
 
     return {

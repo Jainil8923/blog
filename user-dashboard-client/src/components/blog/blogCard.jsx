@@ -33,7 +33,7 @@ export default function MediaCard({ blog }) {
             {blog.title}
           </Typography>
         </Grid2>
-        
+
         <Grid2 size={8}>
           <Typography variant="body1" sx={{ color: "text.secondary" }}>
             {truncateContent(blog.content, 200)}
@@ -43,13 +43,13 @@ export default function MediaCard({ blog }) {
             style={{
               display: "flex",
               padding: 0,
-              marginTop:20,
+              marginTop: 20,
             }}
           >
             <Button
               size="small"
               color="secondary"
-              sx={{ paddingX: 0, marginRight:2 }}
+              sx={{ paddingX: 0, marginRight: 2 }}
             >
               Learn More
             </Button>

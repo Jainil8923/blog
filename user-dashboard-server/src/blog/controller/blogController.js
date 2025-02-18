@@ -10,7 +10,7 @@ export async function getBlogsController(req, res) {
   try {
     const { page = 1, per_page = -1 } = req.query;
     const blogs = await getBlogsRepository(Number(page), Number(per_page));
-    
+
     res.status(200).json({ success: true, data: blogs });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

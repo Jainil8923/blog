@@ -91,4 +91,3 @@ export async function getUsersRepository() {
     throw new Error("Failed to retrieve users");
   }
 }
-
