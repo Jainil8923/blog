@@ -22,7 +22,7 @@ import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone";
 import SpaceDashboardTwoToneIcon from "@mui/icons-material/SpaceDashboardTwoTone";
 import { Outlet } from "react-router";
 import { Link } from "react-router";
-import BookIcon from '@mui/icons-material/Book';
+import BookIcon from "@mui/icons-material/Book";
 
 const drawerWidth = 240;
 
@@ -121,11 +121,16 @@ export default function MiniDrawer() {
   console.log(userId);
   const getUserIdFromToken = (token) => {
     try {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
+      const base64Url = token.split(".")[1];
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map((c) => {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join(""),
+      );
       return JSON.parse(jsonPayload).userId;
     } catch (error) {
       console.error("Error decoding token:", error);
@@ -140,7 +145,6 @@ export default function MiniDrawer() {
       setUserId(getUserIdFromToken(token));
     }
   }, []);
-  
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -290,7 +294,6 @@ export default function MiniDrawer() {
               icon: <BookIcon color="ternary" />,
               link: "/blogs/:userId",
             },
-            
           ].map((item) => (
             <ListItem key={item.text} disablePadding sx={{ display: "block" }}>
               <ListItemButton

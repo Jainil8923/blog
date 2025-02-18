@@ -58,10 +58,18 @@ export default function MediaCard({ user }) {
           {user.jobtitle}
         </Typography>
         <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
-          <Link href={user.facebook_url} target="_blank" rel="noopener noreferrer">
+          <Link
+            href={user.facebook_url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <FacebookIcon />
           </Link>
-          <Link href={user.instagram_url} target="_blank" rel="noopener noreferrer">
+          <Link
+            href={user.instagram_url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <InstagramIcon />
           </Link>
         </Stack>
@@ -105,11 +113,11 @@ MediaCard.propTypes = {
     first_name: PropTypes.string.isRequired,
     last_name: PropTypes.string.isRequired,
     jobtitle: PropTypes.string.isRequired,
-    facebook_url:PropTypes.string.isRequired,
-    instagram_url:PropTypes.string.isRequired,
+    facebook_url: PropTypes.string.isRequired,
+    instagram_url: PropTypes.string.isRequired,
     follower: PropTypes.number.isRequired,
     following: PropTypes.number.isRequired,
     totalPosts: PropTypes.number.isRequired,
-    totalLikes:PropTypes.number.isRequired
+    totalLikes: PropTypes.number.isRequired,
   }).isRequired,
 };

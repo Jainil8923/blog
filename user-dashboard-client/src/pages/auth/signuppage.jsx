@@ -54,13 +54,13 @@ export default function SignupPage() {
           marginTop: "30vh",
         }}
       >
-      <Box
-        component="form"
-        noValidate
-        autoComplete="off"
-        sx={{ width: "100%", mt: 1 }}
-        onSubmit={handleSubmit}
-      >
+        <Box
+          component="form"
+          noValidate
+          autoComplete="off"
+          sx={{ width: "100%", mt: 1 }}
+          onSubmit={handleSubmit}
+        >
           <TextField
             fullWidth
             margin="normal"

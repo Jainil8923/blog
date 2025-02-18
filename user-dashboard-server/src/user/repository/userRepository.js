@@ -92,24 +92,3 @@ export async function getUsersRepository() {
   }
 }
 
-// export async function getUserStatsRepository(userId) {
-//   try {
-//     const totalLikes = await db
-//       .select(fn.sum('likes').as('totalLikes'))
-//       .from('blogs')
-//       .where(eq('user_id', userId));
-
-//     const totalBlogs = await db
-//       .select(fn.count('id').as('totalBlogs'))
-//       .from('blogs')
-//       .where(eq('user_id', userId));
-
-//     return {
-//       totalLikes: totalLikes[0].totalLikes || 0,
-//       totalBlogs: totalBlogs[0].totalBlogs || 0,
-//     };
-//   } catch (err) {
-//     console.error("Error in getUserStatsRepository:", err.message);
-//     throw new Error("Failed to retrieve user stats");
-//   }
-// }

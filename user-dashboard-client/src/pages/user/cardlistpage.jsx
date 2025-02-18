@@ -46,7 +46,7 @@ export default function CardlistPage() {
 
   const { data, error, isLoading } = useSWR(
     "http://localhost:3000/api/users",
-    fetcher
+    fetcher,
   );
   if (error) return <div>{error.message}</div>;
   if (isLoading) {
@@ -63,7 +63,7 @@ export default function CardlistPage() {
       </div>
     );
   }
-  console.log("data:",data);
+  console.log("data:", data);
 
   return (
     <>

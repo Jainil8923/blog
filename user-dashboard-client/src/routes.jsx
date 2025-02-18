@@ -10,21 +10,21 @@ import Bloglistpage from "./pages/blog/bloglistpage";
 
 export const routes = () => {
   const getTokenAndUserId = () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) {
       return null;
     }
-    
-    const userId = JSON.parse(atob(token.split('.')[1])).userId;
+
+    const userId = JSON.parse(atob(token.split(".")[1])).userId;
     return userId;
   };
 
   return (
     <Routes>
       <Route path="/" element={<RootLayoutPage />}>
-      <Route path="/blogs">
-        <Route index element={<Bloglistpage />}></Route>
-      </Route>
+        <Route path="/blogs">
+          <Route index element={<Bloglistpage />}></Route>
+        </Route>
         <Route index element={<Home />}></Route>
         <Route path="users">
           <Route path="cardlist" element={<CardlistPage />}></Route>
@@ -41,7 +41,6 @@ export const routes = () => {
         <Route path="signin" element={<SigninPage />}></Route>
         <Route path="signup" element={<SignupPage />}></Route>
       </Route>
-      
     </Routes>
   );
 };

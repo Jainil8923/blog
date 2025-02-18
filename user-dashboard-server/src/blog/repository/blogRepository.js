@@ -5,19 +5,31 @@ import {
   interactionsTable,
 } from "../../db/schema.ts";
 import { desc, eq, and, count } from "drizzle-orm";
+import { sql } from 'drizzle-orm' 
 
-export async function getBlogsRepository(page = 1, per_page = 10) {
+
+export async function getBlogsRepository(page = 1, per_page = -1) {
   try {
-    const offset = (page - 1) * per_page;
-    const blogs = await db
-      .select()
-      .from(postsTable)
-      .where(eq(postsTable.is_deleted, false))
-      .orderBy(desc(postsTable.created_at))
-      .limit(per_page)
-      .offset(offset);
-
-    return blogs;
+    if (per_page !== -1) {
+      const offset = (page - 1) * per_page;
+      const blogs = await db
+        .select({
+          ...postsTable,
+          totalLikes: sql`(select count(*) from interactions where interactions.post_id = posts.id and interactions.liked = true) as totalLikes`
+        })
+        .from(postsTable)
+        .where(eq(postsTable.is_deleted, false))
+        .orderBy(desc(postsTable.created_at))
+        .limit(per_page)
+        .offset(offset);
+      return blogs;
+    } else {
+      const numberOfBlogs = await db
+        .select({ count: count() })
+        .from(postsTable)
+        .where(eq(postsTable.is_deleted, false));
+      return numberOfBlogs[0].count;
+    }
   } catch (error) {
     console.error("Error fetching blogs:", error);
     throw new Error("Database error while fetching blogs");
@@ -44,8 +56,8 @@ export async function getSingleBlogRepository(blogId) {
       .where(
         and(
           eq(interactionsTable.post_id, blogId),
-          eq(interactionsTable.liked, true),
-        ),
+          eq(interactionsTable.liked, true)
+        )
       );
 
     const dislikeCount = await db
@@ -54,8 +66,8 @@ export async function getSingleBlogRepository(blogId) {
       .where(
         and(
           eq(interactionsTable.post_id, blogId),
-          eq(interactionsTable.liked, false),
-        ),
+          eq(interactionsTable.liked, false)
+        )
       );
 
     return {
