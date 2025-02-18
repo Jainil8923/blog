@@ -33,7 +33,6 @@ const Bloglistpage = () => {
   const { data, error, isLoading } = useSWR(
     `http://localhost:3000/api/blogs?page=${page}&per_page=10`,
     fetcher,
-    { revalidateOnFocus: false },
   );
 
   useEffect(() => {

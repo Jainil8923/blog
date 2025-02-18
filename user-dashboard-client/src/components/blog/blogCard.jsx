@@ -6,7 +6,7 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import { CardActions, Grid2, Stack } from "@mui/material";
 
 export default function MediaCard({ blog }) {
-  const truncateContent = (content, maxLength) => {
+  const crop = (content, maxLength) => {
     if (content.length <= maxLength) return content;
     return content.substring(0, maxLength) + "...";
   };
@@ -36,7 +36,7 @@ export default function MediaCard({ blog }) {
 
         <Grid2 size={8}>
           <Typography variant="body1" sx={{ color: "text.secondary" }}>
-            {truncateContent(blog.content, 200)}
+            {crop(blog.content, 200)}
           </Typography>
 
           <CardActions

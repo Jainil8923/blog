@@ -289,11 +289,6 @@ export default function MiniDrawer() {
               icon: <BookIcon color="primary" />,
               link: "/blogs/",
             },
-            {
-              text: "MyBlogs",
-              icon: <BookIcon color="ternary" />,
-              link: "/blogs/:userId",
-            },
           ].map((item) => (
             <ListItem key={item.text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
