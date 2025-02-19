@@ -6,6 +6,7 @@ import {
   registerUserRepository,
   updateUserByIdRepository,
   // getUserStatsRepository,
+  getPaginatedUsersRepository,
 } from "../repository/userRepository.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -53,13 +54,19 @@ export async function signinUserController(req, res) {
 
 export async function getUserController(req, res) {
   try {
-    const users = await getUsersRepository();
-    // for (const user of users) {
-    //   const stats = await getUserStatsRepository(user.id);
-    //   user.stats = stats;
-    // }
+    const { page, limit } = req.query;
+
+    const offset = (page - 1) * limit;
+    let users;
+    if (page !== undefined && limit !== undefined) {
+      console.log(limit, offset);
+      users = await getPaginatedUsersRepository(limit, offset);
+    } else {
+      users = await getUsersRepository();
+    }
     res.status(200).json(users);
-  } catch {
+  } catch (error) {
+    console.error("Error fetching users:", error);
     res.status(500).send("Internal server error while fetching user data");
   }
 }
@@ -68,6 +75,7 @@ export async function getUserByIdController(req, res) {
   try {
     const userId = req.params.id;
     console.log(userId);
+    console.log("called");
     const user = await getUserByIdRepository(userId);
 
     if (!user || user.length === 0) {
@@ -129,9 +137,28 @@ export async function verifyUserController(req, res) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    res.status(200).json({ message: "User verified successfully", user: user[0] });
+    res
+      .status(200)
+      .json({ message: "User verified successfully", user: user[0] });
   } catch (err) {
     console.error("Error verifying user:", err);
     res.status(401).json({ error: "User verification failed" });
+  }
+}
+
+export async function activateUserController(req, res) {
+  try {
+    const userId = req.params.id;
+    const activationData = {
+      is_active: true,
+      activated_at: new Date(),
+    };
+
+    await updateUserByIdRepository(userId, activationData);
+
+    res.status(200).json({ message: "User activated successfully" });
+  } catch (err) {
+    console.error("Error activating user:", err);
+    res.status(500).send("Internal server error while activating user");
   }
 }

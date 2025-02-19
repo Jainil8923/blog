@@ -6,7 +6,8 @@ import {
   updateUserByIdController,
   deleteUserByIdController,
   getUserController,
-  verifyUserController
+  verifyUserController,
+  activateUserController,
 } from "../controller/userController.js";
 import verifyToken from "../../../middleware/authMiddleware.js";
 import { validateData } from "../../../middleware/validationMiddleware.js";
@@ -28,6 +29,15 @@ userRouter.post(
   validateData(userSigninSchema),
   signinUserController,
 );
+
+userRouter.patch("/:id/activate", verifyToken, (req, res) => {
+  const userId = req.params.id;
+  activateUserController(userId)
+    .then(() =>
+      res.status(200).json({ message: "User activated successfully" }),
+    )
+    .catch((error) => res.status(500).json({ error: error.message }));
+});
 
 userRouter.get("/:id", verifyToken, getUserByIdController);
 userRouter.patch(

@@ -12,12 +12,15 @@ export async function getBlogsController(req, res) {
     const { page, per_page } = req.query;
     const blogs = await getBlogsRepository(Number(page), Number(per_page));
     const numberOfBlogs = await getTotalNumberOfBlogs();
+    const total_page = Math.ceil(numberOfBlogs[0].count / per_page);
+    const next_page = Number(page) + 1 > total_page ? null : Number(page) + 1;
+    const prev_page = Number(page) - 1 < 1 ? null : Number(page) - 1;
     const pagination = {
+      total_page: total_page,
       totalblogs: Number(numberOfBlogs[0].count),
-      prev_page: Number(page) - 1,
-      next_page: Number(page) + 1,
+      prev_page: prev_page,
+      next_page: next_page,
       cur_page: Number(page),
-      total_page: Number(numberOfBlogs[0].count / per_page)
     };
     res.status(200).json({ blogs: blogs, pagination: pagination });
   } catch (error) {

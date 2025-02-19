@@ -20,10 +20,9 @@ const lightTheme = createTheme({
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     {/* <AuthContext.Provider> */}
-      <ThemeProvider theme={lightTheme}>
-        <App />
-      </ThemeProvider>
+    <ThemeProvider theme={lightTheme}>
+      <App />
+    </ThemeProvider>
     {/* </AuthContext.Provider> */}
   </StrictMode>,
 );
-

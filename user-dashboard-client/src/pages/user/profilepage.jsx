@@ -14,13 +14,16 @@ export default function ProfilePage() {
         const token = localStorage.getItem("token");
         if (token) {
           const decodedToken = jwtDecode(token);
-          const userId = decodedToken.sub;
-          console.log(userId);
-          const response = await axios.get(`http://localhost:3000/api/users/${userId}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
+          const userId = decodedToken[0].userId;
+          console.log(decodedToken);
+          const response = await axios.get(
+            `http://localhost:3000/api/users/${userId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
             },
-          });
+          );
           setData(response.data);
         }
       } catch (error) {
