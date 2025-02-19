@@ -4,17 +4,10 @@ import axios from "axios";
 import CircularIndeterminate from "../../components/general/progress";
 import Grid2 from "@mui/material/Grid2";
 import { Pagination, Stack } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const Bloglistpage = () => {
   const [page, setPage] = useState(1);
-  // const [length, setLength] = useState(0);
-
-  // useEffect(() => {
-  //   fetch("http://localhost:3000/api/blogs")
-  //     .then((response) => response.json())
-  //     // .then((data) => setLength(data.data));
-  // }, []);
 
   const fetcher = async (url) => {
     try {
@@ -34,11 +27,6 @@ const Bloglistpage = () => {
     `http://localhost:3000/api/blogs?page=${page}&per_page=10`,
     fetcher,
   );
-
-  useEffect(() => {
-    console.log(page);
-  }, [page]);
-
   if (error) return <div>{error.message}</div>;
   if (isLoading) {
     return (
@@ -54,6 +42,7 @@ const Bloglistpage = () => {
       </div>
     );
   }
+  console.log(data);
 
   return (
     <div>
@@ -64,7 +53,7 @@ const Bloglistpage = () => {
           alignItems: "center",
         }}
       >
-        Blog Page
+        Read here
       </h1>
       <Grid2
         container

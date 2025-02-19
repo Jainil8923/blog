@@ -29,15 +29,9 @@ export async function getBlogsRepository(page = 1, per_page = 10) {
         title: postsTable.title,
         content: postsTable.content,
         authorFullName: sql`(select concat(users.first_name, ' ', users.last_name) from users where users.id = posts.user_id) as authorFullName`,
-        totalLikes: Number(
-          sql`(select count(*) from interactions where interactions.post_id = posts.id and interactions.liked = true) as totalLikes`,
-        ),
-        totalDislikes: Number(
-          sql`(select count(*) from interactions where interactions.post_id = posts.id and interactions.liked = false) as totalDislikes`,
-        ),
-        totalComments: Number(
-          sql`(select count(*) from comments where comments.post_id = posts.id) as totalComments`,
-        ),
+        totalLikes: sql`(select count(*) from interactions where interactions.post_id = posts.id and interactions.liked = true) as totalLikes`,
+        totalDislikes: sql`(select count(*) from interactions where interactions.post_id = posts.id and interactions.liked = false) as totalDislikes`,
+        totalComments: sql`(select count(*) from comments where comments.post_id = posts.id) as totalComments`,
         createdAt: postsTable.created_at,
       })
       .from(postsTable)
@@ -45,7 +39,7 @@ export async function getBlogsRepository(page = 1, per_page = 10) {
       .orderBy(desc(postsTable.created_at))
       .limit(per_page)
       .offset(offset);
-
+    console.log(blogs);
     return blogs;
   } catch (error) {
     console.error("Error fetching blogs:", error);

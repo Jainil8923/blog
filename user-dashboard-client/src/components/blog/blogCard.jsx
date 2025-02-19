@@ -4,6 +4,8 @@ import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import { CardActions, Grid2, Stack } from "@mui/material";
+import CommentIcon from "@mui/icons-material/Comment";
+import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 
 export default function MediaCard({ blog }) {
   const crop = (content, maxLength) => {
@@ -53,9 +55,19 @@ export default function MediaCard({ blog }) {
             >
               Learn More
             </Button>
-            <Stack direction="row" spacing={1}>
-              <Typography>{blog.totalLikes}</Typography>
-              <FavoriteOutlinedIcon />
+            <Stack direction="row" spacing={2}>
+              <Stack direction="row" spacing={1 / 2}>
+                <Typography>{blog.totalLikes}</Typography>
+                <FavoriteOutlinedIcon />
+              </Stack>
+              <Stack direction="row" spacing={1 / 2}>
+                <Typography>{blog.totalDislikes}</Typography>
+                <ThumbDownAltIcon />
+              </Stack>
+              <Stack direction="row" spacing={1 / 2}>
+                <Typography>{blog.totalComments}</Typography>
+                <CommentIcon />
+              </Stack>
             </Stack>
           </CardActions>
         </Grid2>
@@ -69,5 +81,7 @@ MediaCard.propTypes = {
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     totalLikes: PropTypes.string.isRequired,
+    totalComments: PropTypes.string.isRequired,
+    totalDislikes: PropTypes.string.isRequired,
   }).isRequired,
 };

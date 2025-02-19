@@ -23,7 +23,8 @@ import SpaceDashboardTwoToneIcon from "@mui/icons-material/SpaceDashboardTwoTone
 import { Outlet } from "react-router";
 import { Link } from "react-router";
 import BookIcon from "@mui/icons-material/Book";
-
+import LogoutIcon from "@mui/icons-material/Logout";
+import { Avatar } from "@mui/material";
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -185,11 +186,7 @@ export default function MiniDrawer() {
             Mini variant drawer
           </Typography>
           {isUserSignedIn ? (
-            <Link to="/user/profile" style={{ color: "inherit" }}>
-              <IconButton color="inherit">
-                <AccountCircleTwoToneIcon color="ternary" />
-              </IconButton>
-            </Link>
+            <></>
           ) : (
             <>
               <Link
@@ -357,6 +354,63 @@ export default function MiniDrawer() {
             </ListItem>
           ))}
         </List>
+        <Divider />
+        {isUserSignedIn && (
+          <List>
+            <ListItem disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  setIsUserSignedIn(false);
+                  setUserId(null);
+                }}
+                sx={[
+                  {
+                    minHeight: 48,
+                    px: 2.5,
+                  },
+                  open
+                    ? {
+                        justifyContent: "initial",
+                      }
+                    : {
+                        justifyContent: "center",
+                      },
+                ]}
+              >
+                <ListItemIcon
+                  sx={[
+                    {
+                      minWidth: 0,
+                      justifyContent: "center",
+                    },
+                    open
+                      ? {
+                          mr: 3,
+                        }
+                      : {
+                          mr: "auto",
+                        },
+                  ]}
+                >
+                  <LogoutIcon color="primary" />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Sign Out"
+                  sx={[
+                    open
+                      ? {
+                          opacity: 1,
+                        }
+                      : {
+                          opacity: 0,
+                        },
+                  ]}
+                />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        )}
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
