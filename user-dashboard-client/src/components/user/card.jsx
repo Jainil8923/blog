@@ -10,7 +10,6 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import PropTypes from "prop-types";
 export default function MediaCard({ user }) {
-  console.log(user.follower);
   return (
     <Card sx={{ maxWidth: 300, position: "relative" }}>
       <CardMedia

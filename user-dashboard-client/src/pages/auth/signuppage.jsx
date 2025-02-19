@@ -20,7 +20,6 @@ export default function SignupPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(email, password, firstname, lastname);
     const token = localStorage.getItem("token");
     const yourNewData = {
       email,
