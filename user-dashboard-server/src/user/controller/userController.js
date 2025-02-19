@@ -116,3 +116,22 @@ export async function deleteUserByIdController(req, res) {
     res.status(500).send("Internal server error while soft deleting user");
   }
 }
+
+export async function verifyUserController(req, res) {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decodedToken.userId;
+
+    const user = await getUserByIdRepository(userId);
+
+    if (!user || user.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.status(200).json({ message: "User verified successfully", user: user[0] });
+  } catch (err) {
+    console.error("Error verifying user:", err);
+    res.status(401).json({ error: "User verification failed" });
+  }
+}

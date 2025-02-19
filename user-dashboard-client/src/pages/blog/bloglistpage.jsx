@@ -8,13 +8,13 @@ import { useState, useEffect } from "react";
 
 const Bloglistpage = () => {
   const [page, setPage] = useState(1);
-  const [length, setLength] = useState(0);
+  // const [length, setLength] = useState(0);
 
-  useEffect(() => {
-    fetch("http://localhost:3000/api/blogs")
-      .then((response) => response.json())
-      .then((data) => setLength(data.data));
-  }, []);
+  // useEffect(() => {
+  //   fetch("http://localhost:3000/api/blogs")
+  //     .then((response) => response.json())
+  //     // .then((data) => setLength(data.data));
+  // }, []);
 
   const fetcher = async (url) => {
     try {
@@ -71,7 +71,7 @@ const Bloglistpage = () => {
         spacing={4}
         sx={{ display: "flex", justifyContent: "center" }}
       >
-        {data.data.map((blog, index) => (
+        {data.blogs.map((blog, index) => (
           <Grid2 item xs={12} key={index}>
             <MediaCard blog={blog} />
           </Grid2>
@@ -88,7 +88,7 @@ const Bloglistpage = () => {
         <Stack spacing={2}>
           <Pagination
             color="primary"
-            count={Math.ceil(length / 10) + 1}
+            count={data.pagination.total_page + 1}
             page={page}
             onChange={(event, pageNumber) => setPage(pageNumber)}
           />

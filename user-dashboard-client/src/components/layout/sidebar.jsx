@@ -118,7 +118,6 @@ export default function MiniDrawer() {
   const [isUserSignedIn, setIsUserSignedIn] = React.useState(false);
   const [userId, setUserId] = React.useState(null);
 
-  console.log(userId);
   const getUserIdFromToken = (token) => {
     try {
       const base64Url = token.split(".")[1];
@@ -138,11 +137,28 @@ export default function MiniDrawer() {
     }
   };
 
+  const isTokenExpired = (token) => {
+    try {
+      const base64Url = token.split(".")[1];
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      const jsonPayload = JSON.parse(atob(base64));
+      const exp = jsonPayload.exp;
+      const currentTime = Math.floor(Date.now() / 1000);
+      return currentTime > exp;
+    } catch (error) {
+      console.error("Error checking token expiration:", error);
+      return true;
+    }
+  };
+
   React.useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
+    if (token && !isTokenExpired(token)) {
       setIsUserSignedIn(true);
       setUserId(getUserIdFromToken(token));
+    } else {
+      setIsUserSignedIn(false);
+      setUserId(null);
     }
   }, []);
 

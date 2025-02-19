@@ -6,6 +6,7 @@ import {
   updateUserByIdController,
   deleteUserByIdController,
   getUserController,
+  verifyUserController
 } from "../controller/userController.js";
 import verifyToken from "../../../middleware/authMiddleware.js";
 import { validateData } from "../../../middleware/validationMiddleware.js";
@@ -37,5 +38,6 @@ userRouter.patch(
 );
 userRouter.delete("/:id", verifyToken, deleteUserByIdController);
 userRouter.get("/", verifyToken, getUserController);
+userRouter.get("/verifyToken", verifyUserController);
 
 export default userRouter;

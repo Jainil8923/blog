@@ -4,14 +4,22 @@ import {
   createBlogRepository,
   updateBlogRepository,
   deleteBlogRepository,
+  getTotalNumberOfBlogs,
 } from "../repository/blogRepository.js";
 
 export async function getBlogsController(req, res) {
   try {
-    const { page = 1, per_page = -1 } = req.query;
+    const { page, per_page } = req.query;
     const blogs = await getBlogsRepository(Number(page), Number(per_page));
-
-    res.status(200).json({ success: true, data: blogs });
+    const numberOfBlogs = await getTotalNumberOfBlogs();
+    const pagination = {
+      totalblogs: Number(numberOfBlogs[0].count),
+      prev_page: Number(page) - 1,
+      next_page: Number(page) + 1,
+      cur_page: Number(page),
+      total_page: Number(numberOfBlogs[0].count / per_page)
+    };
+    res.status(200).json({ blogs: blogs, pagination: pagination });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
