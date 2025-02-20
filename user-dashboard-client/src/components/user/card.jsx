@@ -5,25 +5,22 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Divider from "@mui/material/Divider";
-import { Stack } from "@mui/material";
+import { Link, Stack } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import XIcon from "@mui/icons-material/X";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import PropTypes from "prop-types";
 export default function MediaCard({ user }) {
-  console.log(user.follower);
   return (
     <Card sx={{ maxWidth: 300, position: "relative" }}>
       <CardMedia
         sx={{ height: 200 }}
-        image={user.backgroundimage}
+        image={user.background_image}
         title="green iguana"
       />
       <CardContent>
         <Avatar
           alt="Remy Sharp"
-          src={user.avatar}
+          src={user.user_image}
           sx={{
             width: 100,
             height: 100,
@@ -42,7 +39,7 @@ export default function MediaCard({ user }) {
           align="center"
           sx={{ paddingTop: 5 }}
         >
-          {user.name}
+          {user.first_name + " " + user.last_name}
         </Typography>
         <Typography
           gutterBottom
@@ -60,10 +57,20 @@ export default function MediaCard({ user }) {
           {user.jobtitle}
         </Typography>
         <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
-          <FacebookIcon />
-          <XIcon />
-          <InstagramIcon />
-          <LinkedInIcon />
+          <Link
+            href={user.facebook_url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FacebookIcon />
+          </Link>
+          <Link
+            href={user.instagram_url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <InstagramIcon />
+          </Link>
         </Stack>
       </CardContent>
       <Divider />
@@ -81,16 +88,8 @@ export default function MediaCard({ user }) {
             direction="column"
             spacing={1}
           >
-            <Typography variant="body2">Follower</Typography>
-            <Typography variant="h6">{user.follower}K</Typography>
-          </Stack>
-          <Stack
-            sx={{ justifyContent: "center", alignItems: "center" }}
-            direction="column"
-            spacing={1}
-          >
-            <Typography variant="body2">Following</Typography>
-            <Typography variant="h6">{user.following}K</Typography>
+            <Typography variant="body2">Total Likes</Typography>
+            <Typography variant="h6">{user.totalLikes}</Typography>
           </Stack>
           <Stack
             sx={{ justifyContent: "center", alignItems: "center" }}
@@ -98,7 +97,7 @@ export default function MediaCard({ user }) {
             spacing={1}
           >
             <Typography variant="body2">Total post</Typography>
-            <Typography variant="h6">{user.totalpost}K</Typography>
+            <Typography variant="h6">{user.totalPosts}</Typography>
           </Stack>
         </Stack>
       </CardActions>
@@ -108,12 +107,16 @@ export default function MediaCard({ user }) {
 
 MediaCard.propTypes = {
   user: PropTypes.shape({
-    backgroundimage: PropTypes.string.isRequired,
-    avatar: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    background_image: PropTypes.string.isRequired,
+    user_image: PropTypes.string.isRequired,
+    first_name: PropTypes.string.isRequired,
+    last_name: PropTypes.string.isRequired,
     jobtitle: PropTypes.string.isRequired,
+    facebook_url: PropTypes.string.isRequired,
+    instagram_url: PropTypes.string.isRequired,
     follower: PropTypes.number.isRequired,
     following: PropTypes.number.isRequired,
-    totalpost: PropTypes.number.isRequired,
+    totalPosts: PropTypes.number.isRequired,
+    totalLikes: PropTypes.number.isRequired,
   }).isRequired,
 };

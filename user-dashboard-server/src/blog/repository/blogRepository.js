@@ -3,20 +3,43 @@ import {
   postsTable,
   commentsTable,
   interactionsTable,
+  usersTable,
 } from "../../db/schema.ts";
 import { desc, eq, and, count } from "drizzle-orm";
+import { sql } from "drizzle-orm";
+
+export async function getTotalNumberOfBlogs() {
+  try {
+    const numberOfBlogs = await db
+      .select({ count: count() })
+      .from(postsTable)
+      .where(eq(postsTable.is_deleted, false));
+    return numberOfBlogs;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 
 export async function getBlogsRepository(page = 1, per_page = 10) {
   try {
     const offset = (page - 1) * per_page;
     const blogs = await db
-      .select()
+      .select({
+        id: postsTable.id,
+        title: postsTable.title,
+        content: postsTable.content,
+        authorFullName: sql`(select concat(users.first_name, ' ', users.last_name) from users where users.id = posts.user_id) as authorFullName`,
+        totalLikes: sql`(select count(*) from interactions where interactions.post_id = posts.id and interactions.liked = true) as totalLikes`,
+        totalDislikes: sql`(select count(*) from interactions where interactions.post_id = posts.id and interactions.liked = false) as totalDislikes`,
+        totalComments: sql`(select count(*) from comments where comments.post_id = posts.id) as totalComments`,
+        createdAt: postsTable.created_at,
+      })
       .from(postsTable)
       .where(eq(postsTable.is_deleted, false))
       .orderBy(desc(postsTable.created_at))
       .limit(per_page)
       .offset(offset);
-
+    console.log(blogs);
     return blogs;
   } catch (error) {
     console.error("Error fetching blogs:", error);
@@ -32,6 +55,11 @@ export async function getSingleBlogRepository(blogId) {
       .where(and(eq(postsTable.id, blogId), eq(postsTable.is_deleted, false)));
 
     if (!blog.length) return null;
+
+    const authername = await db
+      .select()
+      .from(usersTable)
+      .where(eq(postsTable.user_id, usersTable.id));
 
     const comments = await db
       .select()
@@ -60,6 +88,7 @@ export async function getSingleBlogRepository(blogId) {
 
     return {
       ...blog[0],
+      authername: authername,
       comments,
       likes: likeCount[0].count,
       dislikes: dislikeCount[0].count,

@@ -22,7 +22,9 @@ import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone";
 import SpaceDashboardTwoToneIcon from "@mui/icons-material/SpaceDashboardTwoTone";
 import { Outlet } from "react-router";
 import { Link } from "react-router";
-
+import BookIcon from "@mui/icons-material/Book";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { Avatar } from "@mui/material";
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -114,7 +116,52 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
-  const isUserSignedIn = false;
+  const [isUserSignedIn, setIsUserSignedIn] = React.useState(false);
+  const [userId, setUserId] = React.useState(null);
+
+  const getUserIdFromToken = (token) => {
+    try {
+      const base64Url = token.split(".")[1];
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map((c) => {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join(""),
+      );
+      return JSON.parse(jsonPayload).userId;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return null;
+    }
+  };
+
+  const isTokenExpired = (token) => {
+    try {
+      const base64Url = token.split(".")[1];
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      const jsonPayload = JSON.parse(atob(base64));
+      const exp = jsonPayload.exp;
+      const currentTime = Math.floor(Date.now() / 1000);
+      return currentTime > exp;
+    } catch (error) {
+      console.error("Error checking token expiration:", error);
+      return true;
+    }
+  };
+
+  React.useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token && !isTokenExpired(token)) {
+      setIsUserSignedIn(true);
+      setUserId(getUserIdFromToken(token));
+    } else {
+      setIsUserSignedIn(false);
+      setUserId(null);
+    }
+  }, []);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -139,9 +186,7 @@ export default function MiniDrawer() {
             Mini variant drawer
           </Typography>
           {isUserSignedIn ? (
-            <IconButton color="inherit">
-              <AccountCircleTwoToneIcon color="primary" />
-            </IconButton>
+            <></>
           ) : (
             <>
               <Link
@@ -180,7 +225,7 @@ export default function MiniDrawer() {
             {
               text: "Profile",
               icon: <AccountCircleTwoToneIcon color="primary" />,
-              link: "/#",
+              link: "/user/profile",
             },
             {
               text: "Cards",
@@ -249,6 +294,123 @@ export default function MiniDrawer() {
             </ListItem>
           ))}
         </List>
+        <Divider />
+        <List>
+          {[
+            {
+              text: "Blogs",
+              icon: <BookIcon color="primary" />,
+              link: "/blogs/",
+            },
+          ].map((item) => (
+            <ListItem key={item.text} disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                component={Link}
+                to={item.link}
+                sx={[
+                  {
+                    minHeight: 48,
+                    px: 2.5,
+                  },
+                  open
+                    ? {
+                        justifyContent: "initial",
+                      }
+                    : {
+                        justifyContent: "center",
+                      },
+                ]}
+              >
+                <ListItemIcon
+                  sx={[
+                    {
+                      minWidth: 0,
+                      justifyContent: "center",
+                    },
+                    open
+                      ? {
+                          mr: 3,
+                        }
+                      : {
+                          mr: "auto",
+                        },
+                  ]}
+                >
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={item.text}
+                  sx={[
+                    open
+                      ? {
+                          opacity: 1,
+                        }
+                      : {
+                          opacity: 0,
+                        },
+                  ]}
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        {isUserSignedIn && (
+          <List>
+            <ListItem disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  setIsUserSignedIn(false);
+                  setUserId(null);
+                }}
+                sx={[
+                  {
+                    minHeight: 48,
+                    px: 2.5,
+                  },
+                  open
+                    ? {
+                        justifyContent: "initial",
+                      }
+                    : {
+                        justifyContent: "center",
+                      },
+                ]}
+              >
+                <ListItemIcon
+                  sx={[
+                    {
+                      minWidth: 0,
+                      justifyContent: "center",
+                    },
+                    open
+                      ? {
+                          mr: 3,
+                        }
+                      : {
+                          mr: "auto",
+                        },
+                  ]}
+                >
+                  <LogoutIcon color="primary" />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Sign Out"
+                  sx={[
+                    open
+                      ? {
+                          opacity: 1,
+                        }
+                      : {
+                          opacity: 0,
+                        },
+                  ]}
+                />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        )}
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />

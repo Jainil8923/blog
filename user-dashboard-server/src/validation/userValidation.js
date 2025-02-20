@@ -18,7 +18,6 @@ export const userSignupSchema = z.object({
 
 export const userSigninSchema = z.object({
   email: z.string().email(),
-  password: z.string().trim().min(8).regex(PASSWORD_REGEX),
 });
 
 export const userUpdateSchema = z.object({

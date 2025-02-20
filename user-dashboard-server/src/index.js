@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import userRouter from "./user/routes/userRoute.js";
-import blogRouter from "./blog/routes/blogRoute.js";
+import blogRouter from "./blog/route/blogRoute.js";
 import commentRouter from "./comment/routes/commentRoute.js";
 import reactionRouter from "./interation/routes/interactionRoute.js";
 

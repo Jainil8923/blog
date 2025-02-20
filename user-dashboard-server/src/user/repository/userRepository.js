@@ -1,6 +1,6 @@
 import { db } from "../../db/index.js";
 import { usersTable } from "../../db/schema.ts";
-import { eq } from "drizzle-orm";
+import { eq, and, count } from "drizzle-orm";
 
 export async function registerUserRepository(
   email,
@@ -26,19 +26,25 @@ export async function findUser(email) {
     const user = await db
       .select()
       .from(usersTable)
-      .where(eq(usersTable.email, email));
+      .where(and(eq(usersTable.email, email), eq(usersTable.is_active, true)));
 
     console.log("User found:", user);
 
     return user;
   } catch (err) {
     console.error("Error finding user:", err.message);
+    throw new Error("User retrieval failed");
   }
 }
 
 export async function getUserByIdRepository(userid) {
   try {
-    return await db.select().from(usersTable).where(eq(usersTable.id, userid));
+    const user = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.id, userid))
+      .where(and(eq(usersTable.id, userid), eq(usersTable.is_active, true)));
+    return user;
   } catch (err) {
     console.error("Error in getUserByIdRepository:", err.message);
     throw new Error("User retrieval failed");
@@ -50,7 +56,8 @@ export async function updateUserByIdRepository(userid, updateData) {
     return await db
       .update(usersTable)
       .set(updateData)
-      .where(eq(usersTable.id, userid));
+      .where(eq(usersTable.id, userid))
+      .andWhere(eq(usersTable.is_active, true));
   } catch (err) {
     console.error("Error in updateUserByIdRepository:", err.message);
     throw new Error("User update failed");
@@ -71,9 +78,46 @@ export async function deleteUserByIdRepository(userId) {
 
 export async function getUsersRepository() {
   try {
-    return await db.select().from(usersTable);
+    const users = await db
+      .select({
+        ...usersTable,
+        // totalPosts: await db.execute(sql`select count(*) from posts where posts.user_id = usersTable.id`),
+        // totalLikes: await db.execute(sql`select * from ${usersTable} where ${usersTable.id} = ${id}`)
+      })
+      .from(usersTable);
+
+    return users;
   } catch (err) {
-    console.error("Error in getUsersRepository:", err.message);
-    throw new Error("Failed to retrieve users");
+    console.error("Error in getAllUsersRepository:", err.message);
+    throw new Error("Failed to retrieve all users");
+  }
+}
+
+export async function getPaginatedUsersRepository(limit, offset) {
+  try {
+    limit = Number(limit);
+    offset = Number(offset);
+    const users = await db
+      .select({
+        ...usersTable,
+      })
+      .from(usersTable)
+      .where(eq(usersTable.is_active, true))
+      .limit(limit)
+      .offset(offset);
+    const totalUsersdata = await db.select({ count: count() }).from(usersTable);
+    const totalUsers = totalUsersdata[0].count;
+
+    return {
+      users,
+      pagination: {
+        totalUsers,
+        currentPage: offset / limit,
+        totalPages: Math.ceil(totalUsers / limit),
+      },
+    };
+  } catch (err) {
+    console.error("Error in getPaginatedUsersRepository:", err.message);
+    throw new Error("Failed to retrieve paginated users");
   }
 }

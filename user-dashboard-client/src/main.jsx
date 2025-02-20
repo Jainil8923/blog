@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { ThemeProvider, createTheme } from "@mui/material";
+// import { AuthContext } from "./context/AuthContext.js";
 
 const lightTheme = createTheme({
   palette: {
@@ -18,8 +19,10 @@ const lightTheme = createTheme({
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
+    {/* <AuthContext.Provider> */}
     <ThemeProvider theme={lightTheme}>
       <App />
     </ThemeProvider>
-  </StrictMode>
+    {/* </AuthContext.Provider> */}
+  </StrictMode>,
 );
