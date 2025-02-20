@@ -56,52 +56,54 @@ export default function ProfilePage() {
   }
 
   return (
-    <Container disableGutters>
-      <Box
-        sx={{
-          backgroundImage: `url(${data.background_image})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: 200,
-          borderRadius: 2,
-        }}
-      />
-      <Box mt={10} display="flex" flexDirection="column" alignItems="center">
-        <Avatar
-          alt={`${data.first_name} ${data.last_name}`}
-          src={data.user_image}
+    <>
+      <Container>
+        <Box
           sx={{
-            width: 100,
-            height: 100,
-            border: "2px solid white",
-            zIndex: 1,
-            mt: -5,
+            backgroundImage: `url(${data.background_image})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            height: 200,
+            borderRadius: 2,
           }}
         />
-        <Box mt={5} textAlign="center">
-          <Typography variant="h4">{`${data.first_name} ${data.last_name}`}</Typography>
-          <Link mt={1} href={`mailto:${data.email}`} variant="body1">
-            {data.email}
-          </Link>
-          <Box mt={2}>
-            <Link
-              href={data.facebook_url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FacebookIcon />
+        <Box mt={10} display="flex" flexDirection="column" alignItems="center">
+          <Avatar
+            alt={`${data.first_name} ${data.last_name}`}
+            src={data.user_image}
+            sx={{
+              width: 100,
+              height: 100,
+              border: "2px solid white",
+              zIndex: 1,
+              mt: -5,
+            }}
+          />
+          <Box mt={5} textAlign="center">
+            <Typography variant="h4">{`${data.first_name} ${data.last_name}`}</Typography>
+            <Link mt={1} href={`mailto:${data.email}`} variant="body1">
+              {data.email}
             </Link>
-            <Link
-              href={data.instagram_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              ml={1}
-            >
-              <InstagramIcon />
-            </Link>
+            <Box mt={2}>
+              <Link
+                href={data.facebook_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FacebookIcon />
+              </Link>
+              <Link
+                href={data.instagram_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                ml={1}
+              >
+                <InstagramIcon />
+              </Link>
+            </Box>
           </Box>
         </Box>
-      </Box>
-    </Container>
+      </Container>
+    </>
   );
 }

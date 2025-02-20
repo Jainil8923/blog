@@ -24,7 +24,9 @@ import { Outlet } from "react-router";
 import { Link } from "react-router";
 import BookIcon from "@mui/icons-material/Book";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Avatar } from "@mui/material";
+import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import PersonPinIcon from "@mui/icons-material/PersonPin";
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -235,12 +237,12 @@ export default function MiniDrawer() {
             {
               text: "List",
               icon: <ListAltTwoToneIcon color="primary" />,
-              link: "/user/tablelist",
+              link: "/users/tablelist",
             },
             {
               text: "Edit",
               icon: <EditNoteTwoToneIcon color="primary" />,
-              link: "/#",
+              link: "/users/editprofile",
             },
           ].map((item) => (
             <ListItem key={item.text} disablePadding sx={{ display: "block" }}>
@@ -298,9 +300,19 @@ export default function MiniDrawer() {
         <List>
           {[
             {
-              text: "Blogs",
+              text: "All Blogs",
               icon: <BookIcon color="primary" />,
               link: "/blogs/",
+            },
+            {
+              text: "Add Blog",
+              icon: <NoteAddIcon color="primary" />,
+              link: `/blogs/${userId}/create`,
+            },
+            {
+              text: "My Blogs",
+              icon: <PersonPinIcon color="primary" />,
+              link: `/blogs/${userId}/`,
             },
           ].map((item) => (
             <ListItem key={item.text} disablePadding sx={{ display: "block" }}>

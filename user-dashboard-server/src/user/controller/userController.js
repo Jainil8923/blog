@@ -74,8 +74,6 @@ export async function getUserController(req, res) {
 export async function getUserByIdController(req, res) {
   try {
     const userId = req.params.id;
-    console.log(userId);
-    console.log("called");
     const user = await getUserByIdRepository(userId);
 
     if (!user || user.length === 0) {
@@ -148,12 +146,13 @@ export async function verifyUserController(req, res) {
 
 export async function activateUserController(req, res) {
   try {
+    console.log(req.params);
     const userId = req.params.id;
     const activationData = {
       is_active: true,
       activated_at: new Date(),
     };
-
+    console.log(userId);
     await updateUserByIdRepository(userId, activationData);
 
     res.status(200).json({ message: "User activated successfully" });

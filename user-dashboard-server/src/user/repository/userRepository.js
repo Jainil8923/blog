@@ -43,7 +43,7 @@ export async function getUserByIdRepository(userid) {
       .select()
       .from(usersTable)
       .where(eq(usersTable.id, userid))
-      .where(and(eq(usersTable.id, userid), eq(usersTable.is_active, true)));
+      .where(and(eq(usersTable.id, userid),  eq(usersTable.is_active, true)));
     return user;
   } catch (err) {
     console.error("Error in getUserByIdRepository:", err.message);
@@ -53,11 +53,11 @@ export async function getUserByIdRepository(userid) {
 
 export async function updateUserByIdRepository(userid, updateData) {
   try {
+    console.log(userid, updateData);
     return await db
       .update(usersTable)
       .set(updateData)
-      .where(eq(usersTable.id, userid))
-      .andWhere(eq(usersTable.is_active, true));
+      .where(eq(usersTable.id, userid));
   } catch (err) {
     console.error("Error in updateUserByIdRepository:", err.message);
     throw new Error("User update failed");

@@ -7,4 +7,3 @@ export default function RootLayoutPage() {
     </div>
   );
 }
-//TODO: make layout component

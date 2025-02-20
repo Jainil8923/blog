@@ -56,6 +56,21 @@ export default function MediaCard({ user }) {
         >
           {user.jobtitle}
         </Typography>
+        <Typography
+          gutterBottom
+          variant="button"
+          component="div"
+          align="center"
+          sx={{
+            paddingBottom: 3,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            maxWidth: "100%",
+          }}
+        >
+          {user.email}
+        </Typography>
         <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
           <Link
             href={user.facebook_url}
@@ -97,7 +112,7 @@ export default function MediaCard({ user }) {
             spacing={1}
           >
             <Typography variant="body2">Total post</Typography>
-            <Typography variant="h6">{user.totalPosts}</Typography>
+            <Typography variant="h6">{user.total_posts}</Typography>
           </Stack>
         </Stack>
       </CardActions>
@@ -116,7 +131,8 @@ MediaCard.propTypes = {
     instagram_url: PropTypes.string.isRequired,
     follower: PropTypes.number.isRequired,
     following: PropTypes.number.isRequired,
-    totalPosts: PropTypes.number.isRequired,
+    total_posts: PropTypes.number.isRequired,
+    email:PropTypes.string.isRequired,
     totalLikes: PropTypes.number.isRequired,
   }).isRequired,
 };

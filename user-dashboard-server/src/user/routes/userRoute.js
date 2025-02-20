@@ -30,14 +30,7 @@ userRouter.post(
   signinUserController,
 );
 
-userRouter.patch("/:id/activate", verifyToken, (req, res) => {
-  const userId = req.params.id;
-  activateUserController(userId)
-    .then(() =>
-      res.status(200).json({ message: "User activated successfully" }),
-    )
-    .catch((error) => res.status(500).json({ error: error.message }));
-});
+userRouter.patch("/:id/activate", verifyToken, activateUserController);
 
 userRouter.get("/:id", verifyToken, getUserByIdController);
 userRouter.patch(

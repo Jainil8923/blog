@@ -7,6 +7,9 @@ import TablelistPage from "./pages/user/tablelistpage";
 import ProfilePage from "./pages/user/profilepage";
 import SignupPage from "./pages/auth/signuppage";
 import Bloglistpage from "./pages/blog/bloglistpage";
+import Edituserpage from "./pages/user/edituserpage";
+import Createblogpage from "./pages/blog/createblogpage";
+import Myblogs from "./pages/blog/myblogpage";
 
 export const routes = () => {
   const getTokenAndUserId = () => {
@@ -24,11 +27,17 @@ export const routes = () => {
       <Route path="/" element={<RootLayoutPage />}>
         <Route path="/blogs">
           <Route index element={<Bloglistpage />}></Route>
+          <Route
+            path="/blogs/:userId/create"
+            element={<Createblogpage />}
+          ></Route>
+          <Route path="/blogs/:userId" element={<Myblogs />}></Route>
         </Route>
         <Route index element={<Home />}></Route>
         <Route path="users">
           <Route path="cardlist" element={<CardlistPage />}></Route>
           <Route path="tablelist" element={<TablelistPage />}></Route>
+          <Route path="editprofile" element={<Edituserpage />}></Route>
         </Route>
         <Route path="user">
           <Route

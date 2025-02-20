@@ -39,7 +39,6 @@ export async function getBlogsRepository(page = 1, per_page = 10) {
       .orderBy(desc(postsTable.created_at))
       .limit(per_page)
       .offset(offset);
-    console.log(blogs);
     return blogs;
   } catch (error) {
     console.error("Error fetching blogs:", error);
